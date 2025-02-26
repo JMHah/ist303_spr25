@@ -8,18 +8,31 @@ backgroundColor: #fff
 backgroundImage: url('https://marp.app/assets/hero-background.svg')
 ---
 ## Week 6 Agenda
-- Flask assignment debrief
-- Data Wrangling & storage
+- News/Discussion
+- Pair exercise #3 (functions & classes)
+- Flask assignment part 3
+- Data Wrangling & storage (Lubanovic chs 12, 14, 16)
 - Design patterns
 - Midterm review (midterm next week)
 
 ---
-## Check-ins
+# News/Discussion
 
-Flask assignment
+Free _personal_ subscriptions to NYT, Washington Post, LA Times through 7C library:
 
-From HN:
-[Think Python, 3rd Ed](https://allendowney.github.io/ThinkPython/)
+https://libguides.libraries.claremont.edu/newspapers
+
+---
+## Pair Exercise #3
+- exceptions
+- using pytest output
+- use provided inputs and expected outputs for clues
+- construct approach first (recall the 'theory of programming')
+   - don't start with code golf
+   - consider ease of human comprehension
+
+---
+## Flask Part 3
 
 
 ---
@@ -29,7 +42,7 @@ Strings represented in python as unicode sequences (not byte arrays)
 
 What is [unicode](https://home.unicode.org/)?
 - a standard that assigns a unique number to each character used in written languages
-- currently has over 149K characters
+- currently has over 149K assigned characters
 - ASCII is always the first 128 characters (to remain backwards compatible)
 
 ---
@@ -79,11 +92,10 @@ Encoding and decoding relate to the implementation of a standard (i.e. UTF-8)
 - Uses hexadecimal characters (16 values: 0-9, A-F)
   - base char set (plane 0) accessed with `\u` (lowercase u) followed by 4 hex chars: '\u0031'
   - extended char sets (all other planes) accessed with `\U` (uppercase U) and 8 hex chars: '\U0001F334'
-- hopefully you don't '\U0001F634' in class
+
 
 ---
 ## String characters to bytes
-bytes are represented as decimal integers (0 to 255)
 
 convert characters to bytes (object type 'bytes') using:
 - The encode string method: 
@@ -93,6 +105,8 @@ convert characters to bytes (object type 'bytes') using:
 
 can convert to a bytearray object (mutable) using:
 `bytearray('sasquatch', 'utf-8')`
+
+_bytes stored as integer values_
 
 ---
 ### String characters to bytes example
@@ -111,7 +125,7 @@ print(d)
 _Note that the zip function returns an object of type 'zip'. The 'dict' function natively supports creation from zip objects. To convert to a list you would need a list comprehension, L = [x for x in zip(slist, blist)]_
 
 ---
-## Decimal to unicode character: `chr()` function
+## Decimal value to unicode character: `chr()` function
 Unicode characters have both a hexadecimal (reviewed earlier) and decimal representation
 - Hex looked like: '\u0023'
 
@@ -119,7 +133,7 @@ You can move from **decimal** value to **string** character using the chr() func
 
 ```
 chr(83)
-chr(115)  #illustrates the upper/lower sorting in the homework
+chr(115)  #illustrates the upper/lower sorting in the string homework
 ```
 
 ---
@@ -142,7 +156,7 @@ What if you have a hex value and you want to get the decimal (integer) value?
 ![bg 90%](rsc/hex_dec_conversion.png)
 
 ---
-### What can we say about the hex value '\U0002EBE0'?
+### What can we say about the hex value '\U00**02**EBE0'?
 
 - what plane is it on?
 - we now know the decimal value is 191,456
@@ -181,12 +195,12 @@ Compare the value of the python unicode hex value with the converted integer val
 ```
 
 ---
-## What does that have to do with software development?
+## How does this affect software development?
 - understand that there are different encoding schemes
 - if you ingest/read external data you may need to deal with different encoding to make use of the data
 - your program may feed into others that require a particular encoding
 - especially important when dealing with binary
-- can extend the same logic to images (many more file extensions/formats to deal with there)
+- think about how data is internally represented - extends to other representations such as images (many more file extensions/formats to deal with there)
 
 ---
 ### Regular expressions
@@ -194,6 +208,7 @@ Regular expressions are a pseudo language for matching patterns in strings.
 - their own language, beyond python
 - difficult to read
 - powerful string search/matching functionality
+  - well beyond Python string methods
 
 ---
 ### Regex in python
@@ -319,6 +334,9 @@ Get all contents (in memory) at once, using **read** (returns a single string ob
 with open('test.txt', 'rt', encoding = 'utf-8') as fil:
   data = fil.read()
 ```
+
+_not great for very large files_
+
 ---
 ## Getting contents of a file as a variable:
 ## Iterate over a line with **readline()**
@@ -386,14 +404,22 @@ os.rename('testcopy.txt', 'im_a_new_name.txt')
 ## Search directory for files
 Glob module
 
-Similar to regular expression matching, but much simpler syntax and ruleset. ! is 'not' operator, ? matches any single character.
+Similar to regular expression matching, but much simpler syntax and ruleset.
 
+! is 'not' operator
+? matches any single character.
+
+---
+## Glob module examples
 match any file in the directory:
 `import glob`
 `glob.glob('*')`
 
-match filenames containing a 't': `glob.glob('*t*')`
-match filenames containing 'tr' or 'te': `glob.glob('*t[er]*')`
+match filenames containing a 't': 
+`glob.glob('*t*')`
+
+match filenames containing 'tr' or 'te':
+ `glob.glob('*t[er]*')`
 
 
 ---
@@ -402,42 +428,39 @@ match filenames containing 'tr' or 'te': `glob.glob('*t[er]*')`
 ---
 ## Delimited files
 csv (comma separated values)
-- come in other flavors, i.e. tab delimited ('\t'), '|' delimited
+- come in other flavors, i.e. tab delimited ('\t'), pipe delimited '|'
 - first row may have column headers
-- values in a 'field' may contain escape characters; can be dealt with either with outer enclosure in quotes, or escape characters
+- values in a 'field' may contain escape characters
 
 python has a csv module
 `import csv`
 
 ---
-## Create a file
-
-ken.py
-
----
-## Read the file
+## Read a .csv file
 read the file with **csv.reader()**:
 ```
-with open('kenblogs', 'rt') as fil:
+with open('test.csv', 'rt') as fil:
   c = csv.reader(fil)
-  kenblogs = [row for row in c]
+  file_rows = [row for row in c]
 ```
 read the file with **csv.DictReader()**:
 ```
-with open('kenblogs', 'rt') as fil:
+with open('test.txt', 'rt') as fil:
   c = csv.DictReader(fil, fieldnames=['first', 'last', 'postids'])
-  kenblogs = [row for row in c]
+  file_rows = [row for row in c]
 ```
 ---
-## Object persistence
-Saw how to read/write to delimited, text files. 
+## Python Object persistence
+Can now store data (read/write) to delimited text files
+- requires some thought to data types, formatting of file, etc.
+- conversion to/from python data types
 
-What if you want to store your objects directly, not as text?
+### What if you want to store your objects directly as python objects, not as text?
 
 ---
 ## Writing objects to files, and back again
 Shelve library (extends the pickle library)
-- Stores objects directly, re-imported as objects
+- Stores objects directly (re-imported as python objects)
 - don't have to worry how data will import (lists, strings, etc)
 - quick way to persist objects
 
@@ -449,14 +472,14 @@ Drawbacks:
 ## Shelve example
 Shelve for later:
 ```
-d = {"name":"not Ken", "posts":[23,34]}
+d = {"name":"Jack Daniels", "posts":[23,34]}
 import shelve
 with shelve.open('myshelf') as db:
   db['myobj'] = d   #write object 'd' to 'myshelf' file
 ```
 Delete, then retrieve the object from file
 ```
-del d #delete the d object
+del d 
 with shelve.open('myshelf') as db:
   d = db['myobj']
 ```
@@ -468,22 +491,24 @@ The book touches briefly on dynamically structured documents (no predefined sche
 - JSON
 - YAML
 
-There are Python libraries to manage interaction with all these document formats
+Python has libraries to manage interaction with all these document formats
 
 ---
 ## Data science / transformation / processing
 Pandas library
-- for ingesting and manipulating data
+- ingest and manipulate data
 - similar to the R programming language
-- heavy focus on vectorized operations
-- more functional approach to programming 
+- focus on vectorized operations
+- more _functional_ approach to programming 
+
+_functional_ in the sense that it is based more on functions over objects
 
 ---
 ## We saw how to
 - write object contents to text files
 - store objects directly
 
-what about communicating with databases?
+#### Now we'll look at connecting to databases
 
 ---
 # Connecting to Relational Databases
@@ -495,12 +520,13 @@ Python has a standard API for accessing relational databases, DB-API. Contains t
 
 ---
 ## SQLite
-DB-API extended/used by the various relational database libraries
-**sqlite** used in the Flask part 3 exercise
+DB-API is used/extended by the various relational database libraries
+
+One such example is the **sqlite** library (used in Flask part 3)
 
 Saw this two ways in the assignment:
 - creating a connection and then using 'with open' to execute a database creation script (schema.sql script) 
-- creating a connection function and using it to create a cursor to execute relevant database CRUD operations based on user actions (create, read, update, delete)
+- creating a connection function and using it to create a cursor to execute relevant database **CRUD** operations based on user actions (create, read, update, delete)
 
 ---
 #### Running a table creation script (init_db.py file)
@@ -509,7 +535,7 @@ import sqlite
 
 connection = sqlite3.connect('database.db')
 
-with open('schema.sql') as f:
+with open('schema.sql') as f:  # schema.sql sets up your tables and fields
   connection.executescript(f.read())
 
 cur = connection.cursor()
@@ -517,7 +543,6 @@ cur = connection.cursor()
 cur.execute("INSERT INTO posts (title, content) VALUES (?, ?)",
             ('First Post', 'Content for the first post')
             )
-
 connection.commit() 
 connection.close()
 ```
@@ -532,7 +557,7 @@ cur.execute("INSERT INTO posts (title, content) VALUES (?, ?)",
             )
 ```
 - commit needed with CREATE, INSERT, UPDATE, DELETE (edit commands)
-- Sql statement is a single string
+- Sql statement is a _single string_
 - (title, content) are the column names (defined in the schema file)
 - the (?, ?) within the query are values not yet known, defined as a tuple immediately after to avoid sql injection attacks
 
@@ -548,8 +573,9 @@ conn.close()
 ```
 
 - no commit
-- conn.row_factory creates customizable cursor, in this case sqlite3.row creates a dictionary cursor (key access instead of offset)
-- default cursor returns each row as a tuple
+- conn.row_factory creates a customizable cursor
+- sqlite3.row is a dictionary cursor (key access)
+  - default cursor returns each row as a tuple (index offset)
 
 ---
 ## CRUD: update
@@ -605,9 +631,21 @@ Document databases
 
 Object-oriented databases - like document store, but for objects
 - [MongoDB](https://www.mongodb.com/databases/what-is-an-object-oriented-database)
+---
+## End of data access material
 
 ---
-# Design Patterns
+# Software Design Patterns
+What are design patterns?
+
+Patterns of code structure that have been found useful at solving certain categories of problems
+- reusable
+- practical/use-based
+- general approaches
+- not prescriptive
+
+---
+## Where did the term originate?
 "Design Patterns: Elements of Reusable Object-Oriented Software" (1994)
 ![bg right:50%](rsc/gof.jpg)
 
@@ -635,30 +673,31 @@ _Structural_: **Decorator** pattern to dynamically override behavior in an exist
 _Behavioral_: **Observer** pattern to implement publish/subscribe functionality, where any # of observer objects can see an event
 
 ---
-builder pattern example
+### Builder pattern example
 
-separation of construction and representation
+- separation of construction and representation
 
-[builder.py](test_dir/builder.py)
+[builder.py](/scripts/builder.py)
 
 ---
 ## Decorator pattern
 - flask routes
 - pytest markers
+- will dive more into these in week 10
 
 ---
 ## Observer pattern
 implement publish/subscribe functionality, where any # of observer objects can see an event
 
-kenob.py
+[observer.py](/scripts/observer.py)
 
 ---
 ## Architectural Digest: MVC
-Model: data required to be displayed in the View. Collection of classes that describes the business logic (business model and the data model). The code that "does stuff"
+**Model**: data required to be displayed in the View. Collection of classes that describes the business logic (business model and the data model). The code that "does stuff"
 
-View: UI components (HTML, CSS, etc.); displays data received from controller
+**View**: UI components (HTML, CSS, etc.); displays data received from controller
 
-Controller: processes incoming requests. Sends user data to Model, passes results to View
+**Controller**: processes incoming requests. Sends user data to Model, passes results to View
 
 
 [source](https://medium.com/@ankit.sinhal/mvc-mvp-and-mvvm-design-pattern-6e169567bbad#)
@@ -668,15 +707,17 @@ Controller: processes incoming requests. Sends user data to Model, passes result
 
 ---
 
-![](rsc/mvc_summation.png)
+![bg 100%](rsc/mvc_summation.png)
+
 
 ---
 ## MVC 
 What does this architectural pattern have in common with many design & architectural patterns?
 
 - separation of responsibility
-- logical organization of codebase into parts that can be independently worked on, do not require changes to each other (or minimal)
-- Changes to your business logic should only affect one area of your codebase (in this case the models)
+- logical organization of codebase into parts 
+- parts can be independently worked on (changing one area does not require changes to other areas)
+- Changes to business logic only affect one area of your codebase ('models' in MVC)
 
 ---
 # More resources: Design Patterns
@@ -704,19 +745,20 @@ SOLID design principles:
 Software entities (classes, modules, functions, etc.) should be:
 - open for extension
 - closed for modification
-- the result is that you can add new functionality without changing the existing code
+
+Summary: be able to add new functionality without changing existing code
 
 ---
 ## Liskov Substitution Principle
-Functions that use base/parent classes must be able to use objects of derived classes without having it alter the behavior of the program
-- if you overwrite a function in a subclass it must accept data that the parent class would so that it is indistinguishable
+Functions that use child/parent classes must be able to use objects of subclasses without altering the behavior of the program
+- if you overwrite a method in a subclass it must accept data that the parent class would (function cannot distinguish btw child/parent)
 - superclass objects can be replaced with subclass objects and function properly without undesired effects
-- derived classes only extend (see open-close principle)
+- subclasses only extend (see open-close principle)
 
 ---
 ## Interface Segregation Principle
 Clients should not be forced to depend upon interfaces that they do not use
-- a class or module should not depend on methods or properties it doesn’t need
+- a class or module should not depend on methods (or properties) it doesn’t need
 - split software into multiple, independent parts 
 
 ---
@@ -729,7 +771,7 @@ High-level modules should not depend on low-level modules. Both should depend on
 
 
 ---
-## SOLID
+## SOLID Summary
 Seeks to:
 - provide a way to decouple software modules in an effective way
 - make software easier to understand, maintain, and extend
