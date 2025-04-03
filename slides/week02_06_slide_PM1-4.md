@@ -344,6 +344,11 @@ Plots total work left in the iteration against days remaining
 - It’s good when the actual points are below the ideal line!
 
 ---
+
+## Burn down charts
+![bg 72%](rsc/burndown2.png)
+
+---
 ## Sanity break: Where we're at
 - Capturing basic ideas
 - Brainstorming 

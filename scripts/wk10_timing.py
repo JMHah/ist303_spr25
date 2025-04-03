@@ -22,16 +22,16 @@ def time_my_func(func): # passing/returning a function does not use parens ()
     return exec_func 
 
 # decorator function #2: prints the time the code started execution
-def timestamp(func):
+def timestamp_my_func(func):
 
-    def wrapper():
+    def inner():
         print(f'Run time: {datetime.today().strftime("%Y-%m-%d %H:%M:%S")}')
         func()
 
-    return wrapper
+    return inner
 
 
-@timestamp
+@timestamp_my_func
 @time_my_func
 def generator_test() -> None:
     g = (x for x in range(100_000_000))
@@ -40,7 +40,7 @@ def generator_test() -> None:
 
     print(f'memory used to store the generator object, no gc overhead: {g.__sizeof__()} bytes')
 
-@timestamp
+@timestamp_my_func
 @time_my_func
 def list_test() -> None:
     l = [x for x in range(100_000_000)]

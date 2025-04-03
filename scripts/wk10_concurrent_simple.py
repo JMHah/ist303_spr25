@@ -10,7 +10,7 @@ urls = ["https://en.wikipedia.org/wiki/Solar_System",
 
 def multithread():
   
-  def url_download(url):
+  def url_download(url): # code to execute for each item in iterable
     page = requests.get(url)
     html_content = page.text
     html_content.encode('utf-8')
