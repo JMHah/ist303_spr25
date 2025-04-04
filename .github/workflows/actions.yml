@@ -31,7 +31,7 @@ jobs:
       - name: install dependencies
         run: |  # indicates terminal commands
           python -m pip install --upgrade pip
-          pip install -r requirements.txt 
+          pip install -r scripts/requirements.txt 
 
       - name: test using pytest 
         run: | 
