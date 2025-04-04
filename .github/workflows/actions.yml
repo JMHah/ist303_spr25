@@ -2,7 +2,7 @@ name: configure and run tests
 
 on: # when to run
   push:
-    branches: [mainevent]
+    branches: [main]
   
   pull_request:
     branches: [main]
