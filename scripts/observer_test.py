@@ -1,4 +1,4 @@
-from observer import Kens
+from observer import Person
 import pytest
 
 @pytest.fixture()
