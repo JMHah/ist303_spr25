@@ -3,10 +3,10 @@ import pytest
 
 @pytest.fixture()
 def ken_instances():
-  k1 = Kens(fname="Ken",lname="Masters",posts=[23,45,66])
-  k2 = Kens(fname="Ken",lname="Just Ken",posts=[12,13])
-  k3 = Kens(fname="Ken",lname="Obi")
-  k4 = Kens(fname="Ken",lname="YouDigIt")
+  k1 = Person(fname="Ken",lname="Masters",posts=[23,45,66])
+  k2 = Person(fname="Ken",lname="Just Ken",posts=[12,13])
+  k3 = Person(fname="Ken",lname="Obi")
+  k4 = Person(fname="Ken",lname="YouDigIt")
   return k1,k2,k3,k4
 
 # test adding observers
