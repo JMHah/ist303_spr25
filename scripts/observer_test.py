@@ -4,9 +4,9 @@ import pytest
 @pytest.fixture()
 def ken_instances():
   k1 = Person(fname="Ken",lname="Masters",posts=[23,45,66])
-  k2 = Person(fname="Ken",lname="Just Ken",posts=[12,13])
+  k2 = Person(fname="Ken",lname="Shamrock",posts=[12,13])
   k3 = Person(fname="Ken",lname="Obi")
-  k4 = Person(fname="Ken",lname="YouDigIt")
+  k4 = Person(fname="Ken",lname="Jennings")
   return k1,k2,k3,k4
 
 # test adding observers

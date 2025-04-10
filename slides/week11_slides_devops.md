@@ -13,7 +13,6 @@ backgroundImage: url('https://marp.app/assets/hero-background.svg')
 - DevOps
 - Articles
 - CI in action
-- Lubanovic Ch 17
 
 ---
 <style scoped>
@@ -217,27 +216,34 @@ How to determine a suitable topology? _AER = application environment requirement
 All focused on DevOps
 
 2 readings of each type: 
-- business use case/experiental lessons learned
+- business use case/lessons learned
 - academic/theoretical explorations of DevOps
 
 ---
-## Question #1 
 .
+
+.
+
 ## Which type did you find more useful?
 
+Use case or theoretical?
+
 ---
-## Question #2:
+
 .
-## Would the answer differ if we were looking at a technical component of computing, such as a cryptographic protocol?
+
+.
+
+## Would you feel differently if we were looking at a technical component of computing, such as a cryptographic protocol?
 
 ---
 
-### We aren't deploying anything, so we'll focus on continuous integration for the team projects
+### We aren't deploying anything in the team projects, so we'll focus on continuous integration -- the development side of things 
 
 ---
 
 ## Continuous Integration (CI)
-Production/Development:
+Production/Development process:
 - Plan
 - Code
 - Build
@@ -245,23 +251,23 @@ Production/Development:
 - Release
 
 ---
-## Continuous Integration in _Action_
-
-Explore CI using Github actions
+## Continuous Integration: Explore CI using Github actions
 
 Goal is to automate the "Dev" side of things:
-- Code changes
-- Build
-- Test
-- Release
+1. Code changes
+2. Build
+3. Test
+4. Release
 
 ---
-## Automate with CI: Code changes
+## Automate with CI: 
+### 1. Code changes
 
 We've covered this one extensively, using version control (git and github specifically)
 
 ---
-## Automate with CI: Build 
+## Automate with CI: 
+### 2. Build 
 
 We haven't previously discussed build scripts
 
@@ -281,7 +287,7 @@ We haven't previously discussed build scripts
 
 ---
 ## Build characteristics 
-- build scripts are like snowflakes: each one is a little different
+- build scripts are like snowflakes: each is unique
 - typically involve getting code from a source code repository and running a tool to compile and test the code
 - traditionally used to create a compressed archive (.ZIP, .TAR.GZ) or executable (.EXE, .BIN, .APP, etc.); increasingly results in a thing to be done, i.e. deployment of a web application.
 
@@ -294,39 +300,44 @@ For purposes of this course, we will focus on the following:
 - running tests
 
 ---
-## Additional exercises to hone your skills (artifact creation):
-Create installable packages
-- Okken appendix 4: build a python package
-
-Deploy a flask app using free hosting
-- [using render](https://docs.render.com/deploy-flask)
-- [flask docs](https://flask.palletsprojects.com/en/2.0.x/deploying/)
-
----
-## Find and install dependencies (Python)
+## Dependency management (Python)
 With a virtual environment activated:
 
 `pip freeze` lists all the Python packages you have installed in the current environment, along with version number
 
 `pip freeze > requirements.txt` will pipe the results of the _pip freeze_ command to a requirements.txt file in your project folder
-- use this file in gh actions to specify dependencies
+- will use this file in github actions to specify dependencies
 - can open & edit as needed (remove unnecessary dependencies, revise version info, etc.)
 
 ---
 
-## INTERACTIVE
-For the remainder of the CI material:
-- follow along in your local team project repository
-- identify someone in your team to push the changes or make them directly in github (or coordinate taking turns, can also do it later)
+## Additional exercises to hone your build skills (optional)
+Create installable packages
+- Okken appendix 4: build a python package
+
+Deploy a flask app using free hosting:
+- [using render to deploy flask app](https://docs.render.com/deploy-flask)
+- [flask docs on deployment](https://flask.palletsprojects.com/en/2.0.x/deploying/)
+
+---
+
+## Follow along in your group repository
+For the remainder of the CI material, follow along in your local team project repository:
+- identify a team member to push the changes, or
+- identify a team member to make edits directly in github, or
+- coordinate team members taking turns, or
+- do it later
 
 ---
 <style scoped>
-{font-size: 45px;}
+{font-size: 42px;}
 </style>
 ### Requirements.txt
-If you don't already have a **requirements.txt** in your team repo, go ahead and create one from your terminal with `pip freeze > requirements.txt` 
+If you don't already have a **requirements.txt** in your team repo, go ahead and create one
+- from your terminal with `pip freeze > requirements.txt` 
+- directly in github
 
-Open and edit it until satisfied, communicate with your team and have someone push/create it to your team github repo
+Once created, open and edit the file until satisfied
 
 ---
 ## Directory structure
@@ -343,7 +354,8 @@ project/
 
 
 ---
-## Automate with CI: Testing
+## Automate with CI: 
+### 3. Testing
 Github actions can run test scripts (execute Pytest), but we need to have a test structure in place
 
 to automate testing, we need to have:
@@ -361,19 +373,28 @@ For each test directory and subdirectory, you need to have an `__init__.py` file
 If you already have a solid test structure you do not need to restructure your repo (it mimics your codebase structure)
 
 ---
+<style scoped>
+{font-size: 42px;}
+</style>
 ## Directory
 project/
 |...
-|tests/ 
+**|tests/** 
 ||--__ init__.py 
 ||--test_unit.py 
 ||--test_func.py 
 
 ---
+<style scoped>
+{font-size: 46px;}
+</style>
 ## /tests
 This folder is where you will keep all your tests. You can write your new tests here as well as migrate your existing tests here.
 
 ---
+<style scoped>
+{font-size: 42px;}
+</style>
 ### Automation with Github actions
 - you have your dependencies stored in a requirements.txt file
 - you have your test code structured and organized
@@ -381,16 +402,22 @@ This folder is where you will keep all your tests. You can write your new tests 
 Now we're ready to set up our first github action!
 
 ---
+<style scoped>
+{font-size: 40px;}
+</style>
 ## Github actions are stored in YAML files
 [YAML ain't markup language](https://yaml.org/)
 
-YAML is similar to JSON, but more _pythonized_ (indented, with colons :)
+YAML is similar to JSON, but more _pythonized_ (indented, uses colons)
 
-Can store data or config files
+Can hold data or config files
 
 ---
+<style scoped>
+{font-size: 38px;}
+</style>
 ## Steps to Configure your repo for Action
-- in the main project directory, add a **directory** named _.github/_ (note the period it starts with)
+- in the main project directory, add a **directory** named _.github/_ (note the dir name starts with a period)
 - within that dir, add a directory named _workflows/_
 - within the _.github/workflows/_ directory, add a YAML file (name it whatever you want, i.e. 'actions.yml')
 
@@ -401,7 +428,7 @@ Go ahead and have someone make that change in your team repo
 project/
 |.github/
 ||workflows/
-|||--actions.yml
+**|||--actions.yml**
 |.gitignore
 |main.py
 |requirements.txt
@@ -411,10 +438,10 @@ Your repo is now configured to use github actions
 
 ---
 ## What are Github actions?
-Github actions are code executions within a github-created environment that are triggered by a specified event such as:
+Github actions are code executions within a github-created environment, triggered by a specified event such as:
 - repo push, 
 - pull request,
-- time-scheduled
+- specified time schedule
 
 
 GH free tier: 2,000 minutes of actions/month
@@ -439,27 +466,50 @@ Github Actions:
   - checkout repo code, setup python, etc.
 
 ---
+<style scoped>
+{font-size: 45px;}
+</style>
 ## Example YAML
 the course github has a sample .yml file configured to test the 'observer.py' file in the _scripts_ dir
 
 [sample yml](../.github/workflows/actions.yml)
 
----
-## Run history
-
-available via github:
-github.com/GH-USER/REPO/actions
-
-[history of actions in course github](https://github.com/damapak/ist303_spr25/actions)
-
 
 ---
-## Making a change and pushing it
-We've reviewed the details of a successful test run, now we'll change the observer_test.py so that a test fails
+## Github Actions tab
 
-[observer_test file](scripts/observer_test.py)
+Allows you to:
+- see complete Run history
+   - github.com/USERNAME/REPONAME/actions
+   - [history of actions in course github](https://github.com/damapak/ist303_spr25/actions)
+- Activate/deactivate specific actions
+- see performance measures
+- search actions run
 
-now we'll push to github and watch the action run
 
 ---
-## Go forth and create/migrate your tests so that they will auto-run!!
+<style scoped>
+{font-size: 40px;}
+</style>
+## Testing an Action
+- Make sure it is enabled (it will have _disabled_ next to the action name if it is not enabled)
+- make a change and push it to the repo to trigger the "on: push" events
+  - change the [observer_test.py](../scripts/observer_test.py) so that a test will fail
+  - push the change and watch the test run
+
+---
+
+## Final considerations for automated testing
+- keep your test codebase organized
+- separate as much as possible (across functions, files)
+- biggest concern will be the time it takes to run
+  - need to think about which tests to run at different points in time
+  - consider using a testing framework to control which tests to run (pytest markers, skip, by file name, etc.)
+
+---
+<style scoped>
+{font-size: 45px;}
+</style>
+### Go forth and migrate (or create) your tests to automatically run!
+
+for more info on github actions, check out the [actions documentation](https://docs.github.com/en/actions)
