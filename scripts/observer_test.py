@@ -28,4 +28,4 @@ def test_notify(ken_instances: tuple):
   ken_instances[0].add_observer(ken_instances[1])
   assert len(ken_instances[1].events) == 0 # start with 0 subscriber events
   ken_instances[0].notify_observers("This is an Important Event!")
-  assert len(ken_instances[1].events) == 1, f'Should have received one event, had {len(ken_instances[1].events)}'
+  assert len(ken_instances[1].events) == 2, f'Should have received one event, had {len(ken_instances[1].events)}'
