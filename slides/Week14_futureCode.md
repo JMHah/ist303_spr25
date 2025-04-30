@@ -248,7 +248,8 @@ run for _each word_ in the training data:
 ## The Impact of Scale
 - GPT-4 trained on ~13 trillion tokens (token = word, character)
 - average 10-year old has encountered 100 million words
-- [openAI found](https://arxiv.org/pdf/2001.08361.pdf) that an increase in model size, training size, and training compute increased accuracy
+- word2vec had ~300 dimensions per token, GPT-3 models use 12,288 dimensions per token and Claude 3 models use 2,048-8,192
+- [openAI reports](https://arxiv.org/pdf/2001.08361.pdf) that an increase in model size, training size, and training compute increased accuracy
 
 - more recent models have been reducing training data size, focusing more on _quality_ and _speed_
 
