@@ -1,4 +1,4 @@
-# flip a 
+# This program simulates a coin flip and tracks the longest streak of heads or tails.
 
 from random import randint
 
